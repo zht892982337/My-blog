@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="css/index.css">
+<script src="js/move8.js">
+</script>
+<script src="js/jquery-1.7.2.js">
+</script>
+<script>
+window.onload=function(){
+	var oHiddenNav=document.getElementById('hidden_nav');
+	var oMeau=document.getElementById('meau'); 
+	var oClose=document.getElementById('close');
+	var oBar=document.getElementById('block');
+	var NavContent=document.getElementById('nav_content');
+	var aLi=NavContent.children;
+	//隐藏nav
+	oMeau.onmouseover=function(){
+		move(oHiddenNav,{top:0, opacity:0.8});
+	}
+	oClose.onclick=function(){
+		move(oHiddenNav,{top:-100, opacity:1});
+		return false;
+	}
+	
+	//nav栏切换按钮
+	var timer=null;
+	var l=0;
+	var nowPos=0;
+	for(var i=0;i<aLi.length-1;i++){
+		aLi[i].onmouseover=function(){
+			move1(oBar,this.offsetLeft);
+		};	
+		aLi[i].onmouseout=function(){
+			move1(oBar,nowPos);
+		};	
+		aLi[i].onclick=function(){
+			clearInterval(timer);
+			oBar.style.left=this.offsetLeft+'px';
+			nowPos=this.offsetLeft;
+			l=nowPos;
+		};	
+	}
+	function move1(obj,iTarget){
+		clearInterval(timer);
+		var speed=0;
+		
+		timer=setInterval(function(){
+			speed+=(iTarget-obj.offsetLeft)/5;
+			speed *= 0.6;	
+			l+=speed;
+			
+			obj.style.left=Math.round(l)+'px';
+			if(Math.abs(speed)<1) speed=0;
+			if(obj.offsetLeft==iTarget && speed==0){
+				clearInterval(timer);
+			}
+		},30);
+	}
+	
+	
+	
+	var oLeftContent=document.getElementById('left_content');
+		move( oLeftContent,{left:294},{time:1000,type:'ease-out'});
+	var oRightContent=document.getElementById('right_content');
+		//move( oRightContent,{right:300},{time:1000,type:'ease-out'});
+	
+	var oContent=document.getElementById('banner');
+	var scrH=oContent.offsetTop;
+	window.onscroll=function(){
+			var scrTop=document.documentElement.scrollTop||document.body.scrollTop;
+			if(scrTop>=scrH){
+				move(oHiddenNav,{top:0,opacity:0.8});
+			}else{
+				move(oHiddenNav,{top:-100});	
+			}
+	}
+}
+</script>
+</head>
+
+<body>
+<!--headbanner start-->
+<div id="top">
+
+ 		<div class="hidden_nav"  id="hidden_nav">
+        	<ul class="nav_content" id="nav_content" >
+            	<div id="block"></div>
+                
+            	<li><a><span>HOME</span></a></li>
+             	<li><a><span>ABOUT</span></a></li>
+             	<li><a><span>PROJECT</span></a></li>
+             	<li><a><span>CONTACT</span></a></li>
+                <a href="#" id="close"><img src="images/into.png"></a>
+          	</ul>
+            
+    </div>
+		<div class="banner" id="banner">
+            <div class="nav" >
+                <div class="left_logo">
+                    <a href="#"><img src="images/logo.png" alt="k_logo"></a>
+                </div>
+                <div class="meau" id="meau" ><a href="javascript:;"><img src="images/menu.png" alt="meau"></a></div>
+            </div>
+       
+            <div class="banner_content" id="banner_content">
+                <div id="left_content"><a href="#"><img src="images/psb.jpg"></a></div>
+                <div id="right_content">
+                    <h1>I’M ZHAO HAITAO</h1>
+                    <div class="border"></div>
+                    <h2>WEB DESIGNER</h2>
+                    <a href="#">DOWNLOAD MY RESUME</a>
+                </div>
+           </div>
+    </div>
+</div>
+<!--headbanner end-->
+
+</body>
+</html>
